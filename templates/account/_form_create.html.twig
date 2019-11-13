@@ -1,0 +1,32 @@
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{{ form_start(form) }}
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.user.lastname) }}</div>
+        <div class="col-md-6">{{ form_row(form.user.firstname) }}</div>
+    </div>
+<div class="row">
+    <div class="col col-md-6">{{ form_row(form.sex, {'atrr':{'class':'form-control'}}) }}</div>
+    <div class="col col-md-6">{{ form_row(form.birthday) }}</div>
+</div>
+<div class="row">
+    <div class="col col-md-6">{{ form_row(form.address, {'atrr':{'class':'form-control'}}) }}</div>
+    <div class="col col-md-4">{{ form_row(form.city) }}</div>
+    <div class="col col-md-2">{{ form_row(form.postalcode) }}</div>
+</div>
+<div class="row">
+    <div class="col col-md-6">{{ form_row(form.profession) }}</div>
+    <div class="col col-md-6">{{ form_row(form.athlete) }}</div>
+</div>
+
+<div class="row">
+    <div class="col col-md-4">{{ form_row(form.user.phone) }}</div>
+    <div class="col col-md-4">{{ form_row(form.user.mail) }}</div>
+    <div class="col col-md-4">{{ form_row(form.user.password) }}</div>
+</div>
+
+<div class="row">
+    <button class="btn btn-primary"> {{ button|default('Enregistrer') }} </button>
+</div>
+</div>
+{{ form_end(form) }}

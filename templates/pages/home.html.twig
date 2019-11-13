@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}Accueil{% endblock title %}
+{% block body %}
+    <div class="container mt-4">
+        <h2>Page d'accueil</h2>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row flex">
+            {% if app.user %}
+                <p> Hello {{ user.lastname }}</p>
+            {% else %}
+                <p>Bonjour visiteur</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

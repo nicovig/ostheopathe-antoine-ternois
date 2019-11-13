@@ -1,0 +1,50 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        from_database:
+            entity:
+                class: App\Entity\User
+                property: username
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            logout:
+                path: /logout
+                target: /
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            form_login:
+               check_path: login
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/prendre-rendez-vous, roles: ROLE_PATIENT }
+        - { path: ^/manage-appointment, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY]}
+        - { path: ^/manage-patient, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY]}
+        - { path: ^/manage-patient-prescription, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN]}
+        - { path: ^/manage-session, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER]}
+        - { path: ^/manage-secretary-admin, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER]}
+        - { path: ^/manage-secretary, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN]}
+        - { path: ^/manage-practitioner, roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-location, roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-role, roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-rights, roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/mes-rendez-vous, roles: ROLE_PATIENT }
+        - { path: ^/view-prescription, roles: ROLE_SECRETARY }
+        - { path: ^/manage-practitioner, roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/mes-ordonnances, roles: ROLE_PATIENT }
+        - { path: ^/view-secretary, roles: ROLE_SECRETARY }
+        - { path: ^/view-secretary-admin, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY] }
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 12

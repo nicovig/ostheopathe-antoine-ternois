@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('home') }}">Accueil</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('session.show') }}">Séances</a>
+            </li>
+        </ul>
+        {% if app.user %}
+            {% if app.user.role.patient %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('appointment.create') }}">Prendre rendez-vous</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('appointment.show') }}">Voir mes rendez-vous</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('prescription.show') }}">Mes ordonnances</a>
+                </li>
+            </ul>
+            {% endif %}
+        {% endif %}
+        {% if app.user %}
+            {% if (app.user.role.practitioner) or (app.user.role.secretary  ) %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gérer
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <!-- Secretary Access -->
+                        <a class="dropdown-item" href="{{ path('appointment.edit') }}">Rendez-vous</a>
+                        <a class="dropdown-item" href="{{ path('session.edit') }}">Séances</a>
+                        <a class="dropdown-item" href="{{ path('patient.edit') }}">Patients</a>
+                        <a class="dropdown-item" href="{{ path('patient.prescription.edit') }}">Ordonnances</a>
+                        {% if (app.user.role.practitioner) or (app.user.role.secretary.isLeader) %}
+                            <div class="dropdown-divider"></div>
+                            <!-- Secretary Admin Access -->
+                            <a class="dropdown-item" href="{{ path('secretary.edit') }}">Secrétaires</a>
+                        {% endif %}
+                        {% if app.user.role.practitioner %}
+                            <div class="dropdown-divider"></div>
+                            <!-- Practitioner Access -->
+                            <a class="dropdown-item" href="{{ path('secretary.edit.admin') }}">Secrétaires Responsables</a>
+                            <a class="dropdown-item" href="{{ path('location.edit') }}">Cabinets</a>
+                            <div class="dropdown-divider"></div>
+                        {% endif %}
+                        {% if app.user.role.practitioner.isLeader %}
+                            <!-- Admin Access -->
+                            <a class="dropdown-item" href="{{ path('practitioner.edit') }}">Praticiens</a>
+                            <a class="dropdown-item" href="{{ path('role.edit') }}">Roles</a>
+                            <a class="dropdown-item" href="{{ path('rights.edit') }}">Droits</a>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+        {% endif %}
+        {% if app.user %}
+            {% if (app.user.role.practitioner) or (user.role.secretary) %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Voir
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <!-- Secretary Access -->
+                        <a class="dropdown-item" href="{{ path('appointment.show') }}">Rendez-vous</a>
+                        <a class="dropdown-item" href="{{ path('session.show') }}">Séances</a>
+                        <a class="dropdown-item" href="{{ path('prescription.show') }}">Ordonnances</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('secretary.show') }}">Secrétaires</a>
+                        <a class="dropdown-item" href="{{ path('secretary.show.admin') }}">Secrétaires Responsables</a>
+                        <a class="dropdown-item" href="{{ path('location.show') }}">Cabinets</a>
+                        <a class="dropdown-item" href="{{ path('practitioner.show') }}">Praticiens</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('account.show') }}">Mon compte</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('logout') }}">Se déconnecter</a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('account.create') }}">Créer mon compte</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('login') }}">Se connecter</a>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+</nav>
+{% block body %}{% endblock %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

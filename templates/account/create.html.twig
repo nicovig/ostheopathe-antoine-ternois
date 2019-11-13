@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Créer mon compte{% endblock title %}
+{% block body %}
+    <div class="container mt-4">
+        <h2>Créer mon compte</h2>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="mt-4">
+            {{ include('account/_form_create.html.twig', {button: 'Créer mon compte'}) }}
+        </div>
+    </div>
+{% endblock %}

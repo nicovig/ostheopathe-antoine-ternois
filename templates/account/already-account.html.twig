@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Déjà connecté{% endblock title %}
+{% block body %}
+    <div class="container mt-4">
+        <h2>Mon compte</h2>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row flex">
+            <p>
+                Vous êtes déjà connecté en tant que{{ user.mail }}
+            </p>
+
+        </div>
+    </div>
+{% endblock %}

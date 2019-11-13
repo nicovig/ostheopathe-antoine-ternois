@@ -1,0 +1,9 @@
+# Traduuit les différents champs du formulaire USER (sert à la création de compte PATIENT, SECRETARY, PRACTITIONER)
+
+Sex: Sexe
+Birthday: Date de naissance
+Address: Adresse
+City: Ville
+Postalcode: Code postal
+Profession : Profession
+Athlete: Sportif
