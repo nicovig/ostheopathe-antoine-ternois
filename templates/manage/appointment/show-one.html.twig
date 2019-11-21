@@ -38,9 +38,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('appointment_index') }}">back to list</a>
+    <a href="{{ path('appointment.manage.show') }}">back to list</a>
 
-    <a href="{{ path('appointment_edit', {'id': appointment.id}) }}">edit</a>
+    <a href="{{ path('appointment.edit', {'id': appointment.id}) }}">edit</a>
 
-    {{ include('appointment/_delete_form.html.twig') }}
+    {{ include('manage/appointment/_delete_form.html.twig') }}
 {% endblock %}

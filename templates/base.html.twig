@@ -24,12 +24,12 @@
             {% if app.user.role.patient %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('appointment.create') }}">Prendre rendez-vous</a>
+                    <a class="nav-link" href="{{ path('appointment.patient.show.availability') }}">Prendre rendez-vous</a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('appointment.show') }}">Voir mes rendez-vous</a>
+                    <a class="nav-link" href="{{ path('appointment.patient.show.his') }}">Voir mes rendez-vous</a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto">
@@ -40,7 +40,7 @@
             {% endif %}
         {% endif %}
         {% if app.user %}
-            {% if (app.user.role.practitioner) or (app.user.role.secretary  ) %}
+            {% if (app.user.role.practitioner) or (app.user.role.secretary) %}
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +48,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!-- Secretary Access -->
-                        <a class="dropdown-item" href="{{ path('appointment.edit') }}">Rendez-vous</a>
+                        <a class="dropdown-item" href="{{ path('appointment.manage.show') }}">Rendez-vous</a>
                         <a class="dropdown-item" href="{{ path('session.edit') }}">Séances</a>
                         <a class="dropdown-item" href="{{ path('patient.edit') }}">Patients</a>
                         <a class="dropdown-item" href="{{ path('patient.prescription.edit') }}">Ordonnances</a>
@@ -84,7 +84,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!-- Secretary Access -->
-                        <a class="dropdown-item" href="{{ path('appointment.show') }}">Rendez-vous</a>
+                        <a class="dropdown-item" href="{{ path('appointment.manage.show') }}">Rendez-vous</a>
                         <a class="dropdown-item" href="{{ path('session.show') }}">Séances</a>
                         <a class="dropdown-item" href="{{ path('prescription.show') }}">Ordonnances</a>
                         <div class="dropdown-divider"></div>

@@ -27,23 +27,26 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/prendre-rendez-vous, roles: ROLE_PATIENT }
-        - { path: ^/manage-appointment, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY]}
-        - { path: ^/manage-patient, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY]}
-        - { path: ^/manage-patient-prescription, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN]}
-        - { path: ^/manage-session, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER]}
-        - { path: ^/manage-secretary-admin, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER]}
-        - { path: ^/manage-secretary, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN]}
-        - { path: ^/manage-practitioner, roles: ROLE_PRACTITIONER_ADMIN }
-        - { path: ^/manage-location, roles: ROLE_PRACTITIONER_ADMIN }
-        - { path: ^/manage-role, roles: ROLE_PRACTITIONER_ADMIN }
-        - { path: ^/manage-rights, roles: ROLE_PRACTITIONER_ADMIN }
-        - { path: ^/mes-rendez-vous, roles: ROLE_PATIENT }
-        - { path: ^/view-prescription, roles: ROLE_SECRETARY }
-        - { path: ^/manage-practitioner, roles: ROLE_PRACTITIONER_ADMIN }
-        - { path: ^/mes-ordonnances, roles: ROLE_PATIENT }
-        - { path: ^/view-secretary, roles: ROLE_SECRETARY }
-        - { path: ^/view-secretary-admin, roles: [ROLE_PRACTITIONER_ADMIN, ROLE_PRACTITIONER, ROLE_SECRETARY_ADMIN, ROLE_SECRETARY] }
+        - { path: ^/prendre-rendez-vous,         roles: ROLE_PATIENT }
+        - { path: ^/mes-rendez-vous,             roles: ROLE_PATIENT }
+        - { path: ^/créer-rendez-vous,           roles: ROLE_PATIENT }
+        - { path: ^/mes-ordonnances,             roles: ROLE_PATIENT }
+        - { path: ^/view-prescription,           roles: ROLE_SECRETARY }
+        - { path: ^/view-secretary,              roles: ROLE_SECRETARY }
+        - { path: ^/manage-rendez-vous-agenda,   roles: [ROLE_SECRETARY, ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-créer-rendez-vous,    roles: [ROLE_SECRETARY, ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-rendez-vous,          roles: [ROLE_SECRETARY, ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-patient,              roles: [ROLE_SECRETARY, ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/view-secretary-admin,        roles: [ROLE_SECRETARY, ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-patient-prescription, roles: [ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-session,              roles: [ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-secretary-admin,      roles: [ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-secretary,            roles: [ROLE_SECRETARY_ADMIN, ROLE_PRACTITIONER, ROLE_PRACTITIONER_ADMIN]}
+        - { path: ^/manage-practitioner,         roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-location,             roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-role,                 roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-rights,               roles: ROLE_PRACTITIONER_ADMIN }
+        - { path: ^/manage-practitioner,         roles: ROLE_PRACTITIONER_ADMIN }
     encoders:
         App\Entity\User:
             algorithm: bcrypt
