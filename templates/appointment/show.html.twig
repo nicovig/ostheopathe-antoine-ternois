@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appointment{% endblock %}
+
+{% block body %}
+    <h1>Appointment</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ appointment.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ appointment.date ? appointment.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reason</th>
+                <td>{{ appointment.reason }}</td>
+            </tr>
+            <tr>
+                <th>Review</th>
+                <td>{{ appointment.review }}</td>
+            </tr>
+            <tr>
+                <th>RealTime</th>
+                <td>{{ appointment.realTime ? appointment.realTime|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsActive</th>
+                <td>{{ appointment.isActive ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('appointment_index') }}">back to list</a>
+
+    <a href="{{ path('appointment_edit', {'id': appointment.id}) }}">edit</a>
+
+    {{ include('appointment/_delete_form.html.twig') }}
+{% endblock %}

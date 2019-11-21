@@ -65,6 +65,23 @@ class Appointment
      */
     private $prescription;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $endAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Practitioner", inversedBy="appointments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $practitioner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="appointments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $patient;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -185,6 +202,42 @@ class Appointment
         if ($prescription->getAppointment() !== $newAppointment) {
             $prescription->setAppointment($newAppointment);
         }
+
+        return $this;
+    }
+
+    public function getEndAt(): ?\DateTimeInterface
+    {
+        return $this->endAt;
+    }
+
+    public function setEndAt(?\DateTimeInterface $endAt): self
+    {
+        $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getPractitioner(): ?Practitioner
+    {
+        return $this->practitioner;
+    }
+
+    public function setPractitioner(?Practitioner $practitioner): self
+    {
+        $this->practitioner = $practitioner;
+
+        return $this;
+    }
+
+    public function getPatient(): ?Patient
+    {
+        return $this->patient;
+    }
+
+    public function setPatient(?Patient $patient): self
+    {
+        $this->patient = $patient;
 
         return $this;
     }
