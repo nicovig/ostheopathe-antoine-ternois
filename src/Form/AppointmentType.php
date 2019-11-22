@@ -42,11 +42,10 @@ class AppointmentType extends AbstractType
                 'class' => Location::class,
                 'choice_label' => 'city',
             ])
-
+            //if (practitioner.isFree){ ... }
             ->add('practitioner', EntityType::class,[
                 'class' => Practitioner::class,
-                'em' =>
-                'choice_label' => 'id',
+                'choice_label' => 'lastname'
             ])
             
 

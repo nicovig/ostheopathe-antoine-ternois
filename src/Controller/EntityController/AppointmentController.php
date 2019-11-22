@@ -9,12 +9,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use App\Entity\Appointment;
 use App\Form\AppointmentType;
 use App\Repository\AppointmentRepository;
+use App\Helpers\AppHelpers;
 use Symfony\Component\HttpFoundation\Request;
 
 class AppointmentController extends AbstractController
 {
-    public function __construct(TokenStorageInterface $tokenStorage){
+
+    public function __construct(AppHelpers $helpers,
+                                TokenStorageInterface $tokenStorage
+                                ){
+        $this->helpers = $helpers;
         $this->user = $tokenStorage->getToken()->getUser();
+        
     }
 
     /*#############################  PATIENT ###############################################*/
@@ -50,6 +56,25 @@ class AppointmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            //Form's data = session, location, reason, practitioner
+            //Data send by calendar = date
+            $date = new \DateTime('2019-12-1 14:00:00');
+            $appointment->setDate($date);
+
+            //Data to set auto = createdAt, patient
+            $appointment->setCreatedAt($this->helpers->now());
+            $patient = $this->helpers->getPatient($this->user);
+            $appointment->setPatient($patient);
+            dump($appointment);
+            //Data calculated = endAt   
+            $appointment->setEndAt($this->helpers->getEndAppointment($appointment->getDate(), 
+                                                                     $appointment->getSession()->getAverageDuration())
+                                                                     );
+            //if (tokenConfirmation == true) { ... }
+            //IS_ACTIVE
+            $appointment->setIsActive(true);
+            //#############################################################"
+            dump($appointment);
             $entityManager->persist($appointment);
             $entityManager->flush();
 

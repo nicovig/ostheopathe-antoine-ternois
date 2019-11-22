@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Helpers;
-
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Repository\PatientRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -19,7 +18,11 @@ class AppHelpers implements UserCheckerInterface
      */
     private $encoder;
 
-    public function __construct(UserPasswordEncoderInterface $encoder){
+    private $patientRepository;
+
+    public function __construct(PatientRepository $patientRepository,
+                                UserPasswordEncoderInterface $encoder){
+        $this->patientRepository = $patientRepository;
         $this->encoder = $encoder;
     }
 /*########################################################################*/
@@ -43,7 +46,33 @@ class AppHelpers implements UserCheckerInterface
     }
 
     /*
-     * Param : a UserData from form (User form embbed in fom)
+     * Param : appointment's date, average duration from the session
+     * Return : endAt data, DateTime object
+     * Uses : AppointmentController::createPatientAppointment
+     *
+     * */
+    public function getEndAppointment($start, $duration){
+        $endAt = new \DateTime();
+        $endAt->setTimestamp($start->getTimestamp() + $duration->getTimestamp());
+        return $endAt;
+    }
+
+    /*
+     * Param : user object
+     * Return : patient object
+     * Uses : AppointmentController::createPatientAppointment
+     *
+     * */
+    public function getPatient($user){
+        $role = $user->getRole();
+        $patientTmp = $role->getPatient();
+        $patientId = $patientTmp->getId();
+        $patient = $this->patientRepository->find($patientId);
+        return $patient;
+    }
+
+    /*
+     * Param : a UserData from form (User form embbed in form)
      * Return : proper User Object, with encoded password & good username (mail)
      * Uses : Account Controller
      *
@@ -61,8 +90,8 @@ class AppHelpers implements UserCheckerInterface
     }
 
     /*
-     * Return : new DateTimeObject with actual date
-     * Uses : AccountController
+     * Return : new DateTime object with actual date
+     * Uses : AccountController, AppointmentController::createPatientAppointment
      *
      * */
     public function now(){
