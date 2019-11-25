@@ -9,15 +9,16 @@ use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+//LISTENER
 class CalendarSubscriber implements EventSubscriberInterface
 {
-    private $appointmentRepository;
     private $router;
+    private $appointmentRepository;
 
-    public function __construct(
-        BookingRepository $appointmentRepository,
-        UrlGeneratorInterface $router
-    ) {
+    public function __construct(AppointmentRepository $appointmentRepository,
+                                UrlGeneratorInterface $router
+                                ) 
+    {
         $this->appointmentRepository = $appointmentRepository;
         $this->router = $router;
     }
@@ -34,24 +35,21 @@ class CalendarSubscriber implements EventSubscriberInterface
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
         $filters = $calendar->getFilters();
-
         // query
-        // appointment.date your start date property
         $appointments = $this->appointmentRepository
             ->createQueryBuilder('appointment')
-            ->where('appointment.beginAt BETWEEN :start and :end OR appointment.endAt BETWEEN :start and :end')
+            ->where('appointment.date BETWEEN :start and :end OR appointment.endAt BETWEEN :start and :end')
             ->setParameter('start', $start->format('Y-m-d H:i:s'))
             ->setParameter('end', $end->format('Y-m-d H:i:s'))
             ->getQuery()
             ->getResult()
         ;
-
         foreach ($appointments as $appointment) {
             // this create the events with your data (here appointment data) to fill calendar
             $appointmentEvent = new Event(
-                $appointment->getPatient(), //getTitle()
-                $appointment->getDate(),
-                $appointment->getEndAt() // If the end date is null or not defined, a all day event is created.
+                $appointment->getPatient()->getLastName(), //setTitle()
+                $appointment->getDate(), //setStart()
+                $appointment->getEndAt() //setEnd() -- If the end date is null or not defined, a all day event is created.
             );
 
             /*
@@ -65,13 +63,15 @@ class CalendarSubscriber implements EventSubscriberInterface
                 'backgroundColor' => 'red',
                 'borderColor' => 'red',
             ]);
+            /*
+            if user->isManager
             $appointmentEvent->addOption(
                 'url',
                 $this->router->generate('appointment_show', [
                     'id' => $appointment->getId(),
                 ])
             );
-
+            */
             // finally, add the event to the CalendarEvent to fill the calendar             
             $calendar->addEvent($appointmentEvent);
         }

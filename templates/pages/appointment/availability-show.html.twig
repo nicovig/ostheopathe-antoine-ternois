@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="container mt-4 mb-4">
     <div id="calendar-holder"></div>
 </div>
 {% endblock %}
@@ -17,20 +17,36 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+    <script src='fullcalendar/core/main.js'></script>
+    <script src='fullcalendar/core/locales/fr.js'></script>
+    <script src='fullcalendar/daygrid/main.js'></script>
+    <script src='fullcalendar/timegrid/main.js'></script>
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
             var calendarEl = document.getElementById('calendar-holder');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                defaultView: 'dayGridWeek',
-                editable: true,
+                locale: 'fr',
+                firstDay: 1,
+                eventStartEditable: false,
+                editable: false,
+                minTime: "07:00:00",
+                maxTime: "21:00:00",
+                allDaySlot: false,
+                buttonText: {
+                            today:    'Aujourd\'hui',
+                            month:    'Mois',
+                            week:     'Semaine',
+                            day:      'Jour',
+                            list:     'Liste'
+                            },
                 eventSources: [
                     {
                         url: "{{ path('fc_load_events') }}",
                         method: "POST",
                         extraParams: {
-                            filters: JSON.stringify({})
+                            filters: JSON.stringify({ })
                         },
                         failure: () => {
                             // alert("There was an error while fetching FullCalendar!");
@@ -44,8 +60,10 @@
                 },
                 plugins: [ 'interaction', 'dayGrid', 'timeGrid' ], // https://fullcalendar.io/docs/plugin-index
                 timeZone: 'UTC',
+                defaultView: 'timeGridWeek',
             });
             calendar.render();
+            console.log(calendar);
         });
     </script>
 {% endblock %}

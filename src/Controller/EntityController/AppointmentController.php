@@ -17,10 +17,9 @@ class AppointmentController extends AbstractController
 
     public function __construct(AppHelpers $helpers,
                                 TokenStorageInterface $tokenStorage
-                                ){
+                                ){                         
         $this->helpers = $helpers;
         $this->user = $tokenStorage->getToken()->getUser();
-        
     }
 
     /*#############################  PATIENT ###############################################*/
@@ -58,7 +57,7 @@ class AppointmentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             //Form's data = session, location, reason, practitioner
             //Data send by calendar = date
-            $date = new \DateTime('2019-12-1 14:00:00');
+            $date = new \DateTime('2019-12-1 17:00:00');
             $appointment->setDate($date);
 
             //Data to set auto = createdAt, patient
